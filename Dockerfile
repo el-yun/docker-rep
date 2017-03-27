@@ -26,14 +26,18 @@ ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools
 ENV PATH $PATH:$ANDROID_HOME/platform-tools
 
+# SDK Targets 설정
+RUN android update sdk -u
+
 # Gradle 셋팅
-RUN gradle_version=2.2.1
 RUN yum -y install unzip
 RUN yum -y install wget
-RUN cd /opt
-RUN wget https://services.gradle.org/distributions/gradle-3.1-bin.zip
-RUN unzip gradle-3.1-bin.zip
-RUN ln -s gradle-3.1 gradle
+RUN gradle_version=2.3
+RUN mkdir /opt/gradle
+RUN wget -N http://downloads.gradle.org/distributions/gradle-${gradle_version}-all.zip
+RUN unzip -oq ./gradle-${gradle_version}-all.zip -d /opt/gradle
+RUN ln -sfnv gradle-${gradle_version} /opt/gradle/latest
+RUN printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=\$PATH:\$GRADLE_HOME/bin" > /etc/profile.d/gradle.sh. /etc/profile.d/gradle.sh
 
 ENV GRADLE_HOME=/opt/gradle
 ENV PATH $PATH:$GRADLE_HOME/bin
