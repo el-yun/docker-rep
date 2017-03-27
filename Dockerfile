@@ -25,3 +25,16 @@ RUN echo y | /usr/local/android-sdk-linux/tools/android update sdk --filter plat
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools
 ENV PATH $PATH:$ANDROID_HOME/platform-tools
+
+# Gradle 셋팅
+RUN gradle_version=2.2.1
+RUN yum -y install unzip
+RUN yum -y install wget
+RUN cd /opt
+RUN wget https://services.gradle.org/distributions/gradle-3.1-bin.zip
+RUN unzip gradle-3.1-bin.zip
+RUN ln -s gradle-3.1 gradle
+
+ENV GRADLE_HOME=/opt/gradle
+ENV PATH $PATH:$GRADLE_HOME/bin
+
